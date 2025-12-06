@@ -9,8 +9,8 @@
 	-Sử dụng cơ chế dependency injection của Spring để tiêm các phụ thuộc như repository và service vào các lớp service nhằm tách biệt các thành phần.
 	-Factory Pattern: Để tạo ra các đối tượng như Cart hoặc CartItem, mẫu thiết kế factory được áp dụng để các đối tượng này được tạo ra với các phụ thuộc cần thiết, giúp giảm sự phụ thuộc chặt chẽ.
 	- Ứng dụng tuân theo mô hình MVC với:
-		--Model: Lớp trong thư mục models/.
-		--View: Có thể là các trang HTML hoặc Thymeleaf, mặc dù không thấy 	trực tiếp trong cấu trúc này.
+		-Model: Lớp trong thư mục models/.
+		-View: Có thể là các trang HTML hoặc Thymeleaf, mặc dù không thấy 	trực tiếp trong cấu trúc này.
 		--Controller: Các lớp controller dùng để điều hướng và xử lí login.
 		--Services và Repository: Các lớp trong thư mục Services/ và 		Repository/ là các thành phần dịch vụ và kho lưu trữ (Repository), thực hiện 	xử lý nghiệp vụ và tương tác với dữ liệu.
    ***Thực Hành:
