@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Shopping Cart</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <script th:href="@{/css/main.js}"></script>
+    <style>
+        /* Thêm CSS tùy chỉnh để tăng kích thước chữ */
+        body {
+            font-size: 16px;
+            background-color: #f8f9fa;
+        }
+
+        .modal .modal-dialog {
+            max-width: 400px;
+        }
+
+        .modal .modal-header, .modal .modal-body, .modal .modal-footer {
+            padding: 20px 30px;
+        }
+
+        .modal .modal-content {
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .modal .modal-footer {
+            background: #146c43;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .modal .modal-title {
+            display: inline-block;
+        }
+
+        .modal .form-control {
+            border-radius: 2px;
+            box-shadow: none;
+            border-color: #dddddd;
+        }
+
+        .modal textarea.form-control {
+            resize: vertical;
+        }
+
+        .modal .btn {
+            border-radius: 2px;
+            min-width: 100px;
+        }
+
+        .modal form label {
+            font-weight: normal;
+        }
+
+        .card {
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .title h4 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .summary h5, .summary .col {
+            font-size: 18px;
+        }
+
+        .main .text-muted, .main .row .btn {
+            font-size: 16px;
+        }
+
+        .img-fluid {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls a {
+            text-decoration: none;
+            color: #000;
+            padding: 0 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .quantity-controls a:hover {
+            color: #007bff;
+        }
+
+        .quantity-controls span {
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        .summary {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .summary .row {
+            margin-bottom: 10px;
+        }
+
+        .summary .col {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary p {
+            margin: 0;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .back-to-shop a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-to-shop a:hover {
+            text-decoration: underline;
+        }
+
+        .back-to-shop i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #007bff;
+        }
+        .navbar-custom {
+            background-color: #e0e0e0;
+        }
+
+        .carousel-item img {
+
+            object-fit: cover;
+        }
+
+
+
+        .logout-link, .login-link {
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout-link {
+            color: #ffffff;
+            background-color: #dc3545; /* Màu nền đỏ */
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout-link:hover {
+            background-color: #c82333; /* Màu nền đỏ đậm hơn khi hover */
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-custom navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/indexAdmin}">
+            <img th:src="@{/images/logo1.jpg}" alt="Bootstrap" height="45">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/indexAdmin}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/ordersAd}">My order</a></li>
+                        <li><a class="dropdown-item" href="index.php?act=qldh">Quản lý đơn hàng</a></li>
+                        <li><a class="dropdown-item" href="index.php?act=qlsp">Quản lý sản phẩm</a></li>
+                        <li><a class="dropdown-item" href="index.php?act=qlsp">Quản lý user</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/about}">About</a>
+
+            </ul>
+
+            <form class="d-flex" role="search" method="get" th:action="@{/searchAd}">
+                <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="d-flex">
+                <div> Hello
+                    <span th:text="${currentUserName}">User</span>
+                </div>
+            </div>
+
+
+            <form class="d-flex" th:action="@{/cartAd}">
+                <button class="btn btn-outline-dark me-auto mb-2 mb-lg-0 ms-lg-4" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                </button>
+            </form>
+            <div><a class="nav-link logout-link me-auto mb-2 mb-lg-0 ms-lg-4" th:href="@{/logout}">Logout</a></div>
+
+        </div>
+    </div>
+</nav>
+<form th:action="@{/place-orderAd}" method="post">
+    <div class="container card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                    </div>
+                </div>
+                <div th:if="${cart != null}" th:each="item, iterStat : ${cart.items}">
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center" th:attr="data-id=${item.product.id}" th:attrappend="data-index=${iterStat.index}">
+                            <div class="col-2"><img class="img-fluid" th:src="@{|/images/${item.product.image}|}"></div>
+                            <div class="col">
+                                <div class="row text-muted" th:text="${item.product.category}">Shirt</div>
+                                <div class="row" th:text="${item.product.name}">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <div class="quantity-controls">
+                                    <a href="#" class="btn btn-outline-dark"
+                                       th:onclick="'updateQuantity(' + ${iterStat.index} + ', -1)'">-</a>
+                                    <span id="quantity-[[${iterStat.index}]]" th:id="'quantity-' + ${iterStat.index}"
+                                          th:text="${item.quantity}">1</span>
+                                    <a href="#" class="btn btn-outline-dark"
+                                       th:onclick="'updateQuantity(' + ${iterStat.index} + ', 1)'">+</a>
+                                </div>
+                            </div>
+                            <div class="col">
+                                &euro; <span id="price-[[${iterStat.index}]]" th:id="'price-' + ${iterStat.index}"
+                                             th:text="${item.product.price}">44.00</span>
+                            </div>
+                            <div class="col">
+                                <a href="#deleteModal" th:attr="data-id=${item.product.id}" class="delete"
+                                   data-toggle="modal"> Remove </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back-to-shop"><i class="bi bi-arrow-left"></i> <a th:href="@{/indexAdmin}">Back to shop</a>
+                </div>
+            </div>
+            <div class="col-md-4 summary">
+                <div><h5><b>Summary</b></h5></div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left:0;">ITEMS <span th:if="${cart != null}"
+                                                                         th:text="${cart.items.size()}">0</span></div>
+                    <div class="col text-right">&euro; <span id="totalPrice" th:if="${totalPrice != null}"
+                                                             th:text="${#numbers.formatDecimal(totalPrice, 0, 2)}">0.00</span>
+                    </div>
+                </div>
+                <label for="name" class="form-label">Name</label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                </div>
+                <label for="address" class="form-label">Address</label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="address" id="address" placeholder="address" required>
+                </div>
+                <label for="phone" class="form-label">Phone</label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="phone" required>
+                </div>
+                <label for="typeName" class="form-label">Thanh toán</label>
+                <div class="form-floating mb-3">
+                    <input type="text" id="typeName" class="form-control form-control-lg" size="17"
+                           value="Thanh Toán Khi Nhận Hàng" name="paymentMethod" disabled/>
+                </div>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right">&euro; <span id="summaryTotalPrice" th:if="${totalPrice != null}"
+                                                             th:text="${#numbers.formatDecimal(totalPrice, 0, 2)}">0.00</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="placeOrderButton"
+                        th:disabled="${cart == null or cart.items.isEmpty()}" style="font-size: medium">Đặt hàng
+                </button>
+                <div id="empty-cart-message" class="text-danger" style="display: none;">
+                    Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="deleteForm">
+                <div class="modal-header"><h4 class="modal-title">Delete Product</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body"><p>Are you sure you want to delete this product?</p> <input type="hidden"
+                                                                                                    name="productId"
+                                                                                                    id="productId">
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal"
+                           value="Cancel">
+                    <button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="py-5">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a th:href="@{/index}" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li class="nav-item"><a th:href="@{/about}" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+</footer>
+<!-- Bootstrap core JS and Popper JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function updateCartAndUI() {
+        // Kiểm tra nếu giỏ hàng trống
+        const items = document.querySelectorAll('.row.main'); // Dòng sản phẩm trong giỏ hàng
+        const placeOrderButton = document.getElementById('placeOrderButton');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const totalPriceElement = document.getElementById('totalPrice');
+        const summaryTotalPriceElement = document.getElementById('summaryTotalPrice');
+
+        if (items.length === 0) {
+            // Hiển thị thông báo và vô hiệu hóa nút "Đặt hàng"
+            emptyCartMessage.style.display = 'block';
+            placeOrderButton.setAttribute('disabled', 'true');
+
+            // Đặt tổng giá trị về 0
+            totalPriceElement.innerText = "0.00";
+            summaryTotalPriceElement.innerText = "0.00";
+        } else {
+            // Ẩn thông báo và bật lại nút "Đặt hàng"
+            emptyCartMessage.style.display = 'none';
+            placeOrderButton.removeAttribute('disabled');
+        }
+    }
+
+    $(document).ready(function () {
+        // Khi nhấn nút "Remove", cập nhật giao diện
+        $('.delete').click(function () {
+            const id = $(this).attr('data-id');
+            $('#productId').val(id);
+            const action = "/deleteAd/" + id;
+            $('#deleteForm').attr('action', action);
+        });
+    });
+
+    function updateQuantity(index, delta) {
+        // Lấy các phần tử liên quan đến sản phẩm tại chỉ số `index`
+        var quantityElement = document.getElementById('quantity-' + index);
+        var priceElement = document.getElementById('price-' + index);
+        var totalPriceElement = document.getElementById('totalPrice');
+        var summaryTotalPriceElement = document.getElementById('summaryTotalPrice');
+
+        // Lấy id của sản phẩm từ thuộc tính `data-id` tại dòng sản phẩm hiện tại
+        var itemRow = document.querySelector(`.row.main[data-index='${index}']`);
+        var itemId = itemRow.getAttribute('data-id');
+
+        // Cập nhật số lượng
+        var quantity = parseInt(quantityElement.innerText);
+        quantity += delta;
+        if (quantity < 1) quantity = 1;
+        quantityElement.innerText = quantity;
+
+        var price = parseFloat(priceElement.innerText);
+        var totalPrice = 0;
+        var allRows = document.querySelectorAll('.row.main');
+        allRows.forEach(function (row, idx) {
+            var itemQuantity = parseInt(document.getElementById('quantity-' + idx).innerText);
+            var itemPrice = parseFloat(document.getElementById('price-' + idx).innerText);
+            totalPrice += itemQuantity * itemPrice;
+        });
+
+        totalPriceElement.innerText = totalPrice.toFixed(2);
+        summaryTotalPriceElement.innerText = totalPrice.toFixed(2);
+
+        // Gửi yêu cầu AJAX để cập nhật số lượng trong cơ sở dữ liệu
+        fetch("/updateQuantity", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                itemId: itemId,
+                quantity: quantity
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Quantity updated successfully!");
+                } else {
+                    console.log("Failed to update quantity.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    }
+</script>
+</body>
+</html>

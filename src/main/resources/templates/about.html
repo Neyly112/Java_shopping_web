@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Shop Homepage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <style>
+        .navbar-custom {
+            background-color: #e0e0e0;
+        }
+
+        .carousel-item img {
+
+            object-fit: cover;
+        }
+
+        .login-link {
+            color: #ffffff;
+            background-color: #28a745; /* Màu nền xanh */
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link:hover {
+            background-color: #218838;
+            color: #ffffff;
+        }
+        .fon {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-custom navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{/images/logo1.jpg}" alt="Bootstrap" height="45">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="checkLogin()">My order</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/about}">About</a>
+
+            </ul>
+            <form class="d-flex" role="search" method="get" th:action="@{/search}">
+                <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="d-flex">
+                <button class="btn btn-outline-dark me-auto mb-2 mb-lg-0 ms-lg-4" type="submit" onclick="checkLogin()">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                </button>
+            </div>
+            <div><a class="nav-link login-link me-auto mb-2 mb-lg-0 ms-lg-4" th:href="@{/login}">Login</a></div>
+
+        </div>
+    </div>
+</nav>
+<section>
+    <!--end navbar-->
+    <!--Page content-->
+    <div class="container p-4 text-dark fon" style="font-weight: 500;">
+        <div>Chúng tôi là cửa hàng thời trang dành cho phụ nữ trẻ yêu thích phong
+            cách hiện đại. </div>
+        <div>Chúng tôi chuyên cung cấp các sản phẩm quần áo váy, áo, quần jean,
+            v.v.. Chất lượng cao với giá cả phải chăng.</div>
+        <div>
+            <li>Mẫu mã đa dạng: Chúng tôi có một bộ sưu tập phong phú các sản phẩm
+                phù hợp với mọi phong cách và sở thích.</li>
+            <li>Chất lượng cao: Tất cả các sản phẩm của chúng tôi được làm từ chất
+                liệu cao cấp và được gia công tỉ mỉ để đảm bảo độ bền và thoải mái khi
+                mặc.</li>
+            <li>Giá cả hợp lý: Chúng tôi cam kết mang đến cho khách hàng những sản
+                phẩm chất lượng với mức giá cạnh tranh nhất.</li>
+        </div>
+        <div>Liên hệ với chúng tôi:</div>
+        <div>
+            <li>Cửa hàng quần áo.</li>
+            <li>Email: thuan@gmail.com</li>
+            <li>Số điện thoại: 0123456789</li>
+        </div>
+    </div>
+</section>
+<footer class="py-5">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a th:href="@{/}" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li class="nav-item"><a th:href="@{/about}" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+</footer>
+<!--end product-->
+
+<!--end Page content-->
+<!--footer-->
+
+<!--end footer-->
